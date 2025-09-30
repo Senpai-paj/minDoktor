@@ -11,11 +11,11 @@ async function api<T>(path: string, init?: RequestInit): Promise<T> {
     return res.json();
 }
 
-export async function createTask(title: string): Promise<Task> {
+export async function createTask(task: Task): Promise<Task> {
     return api<Task>(`/create`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title }),
+        body: JSON.stringify(task),
     });
 }
 

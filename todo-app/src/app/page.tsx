@@ -1,12 +1,11 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import Link from 'next/link'
 import TaskCard from '@/app/components/card/TaskCard'
-//import Pagination from '@/components/Pagination'
 import { Task } from '@/types/task'
 import { getTasks } from '@/lib/api'
 import Navbar from './components/Navbar'
+import CreateTask from './components/CreateTask'
 
 async function fetchTasks(): Promise<Task[]> {
   const res = await getTasks();
@@ -19,6 +18,7 @@ export default function HomePage() {
   const [search, setSearch] = useState('')
   const [sortBy, setSortBy] = useState('dueDate')
   const [data, setData] = useState<Task[]>([])
+  const [isCreateOpen, setIsCreateOpen] = useState(false)
 
   useEffect(() => {
     let cancelled = false
@@ -36,7 +36,13 @@ export default function HomePage() {
   //Test for subrepo cleanup
   return (
     <div className='min-h-screen w-full bg-red-50'> 
-      <Navbar />
+      <Navbar onCreateClick={() => setIsCreateOpen(true)} />
+
+      <CreateTask
+        isOpen={isCreateOpen}
+        onClose={() => setIsCreateOpen(false)}
+        onCreated={(t) => setData((prev) => [t, ...prev])}
+      />
       
       <div className="shadow-2xl rounded-xl h-[93vh] w-[90vw] m-auto mt-5">
         {data.map((t) => (
