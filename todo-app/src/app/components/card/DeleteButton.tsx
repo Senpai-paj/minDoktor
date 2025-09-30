@@ -2,12 +2,15 @@ import type React from "react"
 import { motion, useAnimation } from "motion/react"
 import { Trash2Icon } from "lucide-react"
 import { useState } from "react"
+import { deleteTask } from "@/lib/api"
 
 interface DeleteButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  id: string
   holdDuration?: number
+  onDeleted?: (id: string) => void
 }
 
-export default function DeleteButton({ className, holdDuration = 3000, ...props }: DeleteButtonProps) {
+export default function DeleteButton({ id, onDeleted, className, holdDuration = 3000, ...props }: DeleteButtonProps) {
   const [isHolding, setIsHolding] = useState(false)
   const controls = useAnimation()
 
@@ -21,6 +24,13 @@ export default function DeleteButton({ className, holdDuration = 3000, ...props 
         ease: "linear",
       },
     })
+    try {
+      await deleteTask(id)
+      onDeleted?.(id)
+    } finally {
+      setIsHolding(false)
+      controls.set({ width: "0%" })
+    }
   }
   
   function handleHoldEnd() {
@@ -36,7 +46,7 @@ export default function DeleteButton({ className, holdDuration = 3000, ...props 
     <button
       className="min-w-40 relative overflow-hidden rounded-2xl
                  bg-red-100 hover:bg-red-200 
-                 hover:bg-red-200 text-red-600 border 
+                 text-red-600 border 
                  border-red-300 cursor-pointer"
       
       onMouseDown={handleHoldStart}

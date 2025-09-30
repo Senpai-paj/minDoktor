@@ -46,7 +46,11 @@ export default function HomePage() {
       
       <div className="shadow-2xl rounded-xl h-[93vh] w-[90vw] m-auto mt-5">
         {data.map((t) => (
-          <TaskCard key={t.id} {...t} />
+          <TaskCard
+            key={t.id}
+            {...t}
+            onDeleted={(id) => setData((prev) => prev.filter((x) => x.id !== id))}
+          />
         ))}
       </div>
 

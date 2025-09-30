@@ -3,7 +3,9 @@ import DeleteButton from "./DeleteButton";
 import EditButton from "./EditButton";
 import CheckButton from "./CheckButton";
 
-export default function TaskCard(task: Task) { 
+type TaskCardProps = Task & { onDeleted?: (id: string) => void }
+
+export default function TaskCard(task: TaskCardProps) { 
 
     return (
         <div className="w-[80%] m-auto rounded-xl mt-5 overflow-hidden">
@@ -29,7 +31,7 @@ export default function TaskCard(task: Task) {
                 <div className="flex items-center justify-between">
                     <CheckButton/>
                     <EditButton/>
-                    <DeleteButton/> 
+                    <DeleteButton id={task.id} onDeleted={task.onDeleted} /> 
                 </div>
             </div>
             
