@@ -6,6 +6,7 @@ import { Task } from '@/types/task'
 import { getTasks } from '@/lib/api'
 import Navbar from './components/Navbar'
 import CreateTask from './components/CreateTask'
+import EditTask from './components/EditTask'
 
 async function fetchTasks(): Promise<Task[]> {
   const res = await getTasks();
@@ -19,6 +20,7 @@ export default function HomePage() {
   const [sortBy, setSortBy] = useState('dueDate')
   const [data, setData] = useState<Task[]>([])
   const [isCreateOpen, setIsCreateOpen] = useState(false)
+  const [editingTask, setEditingTask] = useState<Task | null>(null)
 
   useEffect(() => {
     let cancelled = false
@@ -43,6 +45,14 @@ export default function HomePage() {
         onClose={() => setIsCreateOpen(false)}
         onCreated={(t) => setData((prev) => [t, ...prev])}
       />
+      <EditTask
+        isOpen={!!editingTask}
+        task={editingTask}
+        onClose={() => setEditingTask(null)}
+        onEdited={(updated) => {
+          setData((prev) => prev.map((x) => x.id === updated.id ? updated : x))
+        }}
+      />
       
       <div className="shadow-2xl rounded-xl h-[93vh] w-[90vw] m-auto mt-5">
         {data.map((t) => (
@@ -50,6 +60,7 @@ export default function HomePage() {
             key={t.id}
             {...t}
             onDeleted={(id) => setData((prev) => prev.filter((x) => x.id !== id))}
+            onEdited={(updated) => setData((prev) => prev.map((x) => x.id === updated.id ? updated : x))}
           />
         ))}
       </div>
