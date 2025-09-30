@@ -33,7 +33,7 @@ export default function HomePage() {
       cancelled = true
     }
   }, [])
-  //Test for subrepo
+  //Test for subrepo cleanup
   return (
     <div className='min-h-screen w-full bg-red-50'> 
       <Navbar />
