@@ -8,6 +8,7 @@ import Navbar from './components/Navbar'
 import CreateTask from './components/CreateTask'
 import Search from './components/Search'
 import Sort from './components/Sort'
+import Category from './components/Category'
 
 async function fetchTasks(signal?: AbortSignal): Promise<Task[]> {
   const res = await getTasks(signal);
@@ -16,6 +17,7 @@ async function fetchTasks(signal?: AbortSignal): Promise<Task[]> {
 }
 
 export default function HomePage() {
+  
   const [allData, setAllData] = useState<Task[]>([])
   const [data, setData] = useState<Task[]>([])
   const [isCreateOpen, setIsCreateOpen] = useState(false)
@@ -74,23 +76,8 @@ export default function HomePage() {
           />
         </div>
       </div>
-      
-      <div className="shadow-2xl rounded-xl h-[93vh] w-[90vw] m-auto mt-5">
-        {data.map((t) => (
-          <TaskCard
-            key={t.id}
-            {...t}
-            onDeleted={(id) => {
-              setAllData((prev) => prev.filter((x) => x.id !== id))
-              setData((prev) => prev.filter((x) => x.id !== id))
-            }}
-            onEdited={(task) => {
-              setAllData((prev) => prev.map((x) => x.id === task.id ? task : x))
-              setData((prev) => prev.map((x) => x.id === task.id ? task : x))
-            }}
-          />
-        ))}
-      </div>
+
+      <Category tasks={data} setAllData={setAllData} setData={setData} />
 
     </div>
   )
