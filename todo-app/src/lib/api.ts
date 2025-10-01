@@ -38,3 +38,7 @@ export async function deleteTask(id: string): Promise<{ success: boolean } | Tas
         body: JSON.stringify(id),
     });
 }
+
+export async function searchTasks(query: string): Promise<Task[]> {
+    return api<Task[]>(`/search?q=${encodeURIComponent(query)}`, { method: "GET" });
+}

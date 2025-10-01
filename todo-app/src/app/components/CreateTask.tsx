@@ -39,7 +39,6 @@ export default function CreateTask({ isOpen, onClose, onCreated }: CreateTaskPro
         createDate: new Date(),
         status: false,
       }
-      console.log(newTask);
       const saved = await createTask(newTask)
       onCreated?.(saved)
       onClose()
