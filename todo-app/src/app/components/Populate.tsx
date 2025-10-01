@@ -32,7 +32,7 @@ export default function Populate( {setData, setAllData} : PopulateProps) {
   }
 
   return (
-    <button className='cursor-pointer' onClick={handlePopulate}><BadgePlus/></button>
+    <button className='cursor-pointer' title="Click to populate" onClick={handlePopulate}><BadgePlus/></button>
   )
 }
 
