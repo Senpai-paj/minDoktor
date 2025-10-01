@@ -10,7 +10,7 @@ interface DeleteButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement
   onDeleted?: (id: string) => void
 }
 
-export default function DeleteButton({ id, onDeleted, className, holdDuration = 3000, ...props }: DeleteButtonProps) {
+export default function DeleteButton({ id, onDeleted, holdDuration = 3000, ...props }: DeleteButtonProps) {
   const [isHolding, setIsHolding] = useState(false)
   const controls = useAnimation()
 

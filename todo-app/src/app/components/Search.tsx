@@ -1,14 +1,8 @@
 import { Task } from "@/types/task"
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { searchTasks } from "@/lib/api"
 
-export default function Search({
-    all,
-    onSearch,
-}: {
-    all: Task[]
-    onSearch: (tasks: Task[]) => void
-}) {
+export default function Search({ all, onSearch}: {all: Task[], onSearch: (tasks: Task[]) => void }) {
 
     const [text, setText] = useState('')
     const [loading, setLoading] = useState(false)

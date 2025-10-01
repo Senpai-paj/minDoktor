@@ -1,9 +1,6 @@
-'use client'
-
 import { populate } from '@/lib/api'
 import { BadgePlus  } from 'lucide-react';
 import type { Task } from '@/types/task'
-import { useEffect } from 'react';
 
 type PopulateProps = {
     setData: React.Dispatch<React.SetStateAction<Task[]>>;

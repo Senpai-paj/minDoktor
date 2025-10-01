@@ -1,7 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import TaskCard from '@/app/components/card/TaskCard'
+import { useEffect, useState, useCallback } from 'react'
 import { Task } from '@/types/task'
 import { getTasks } from '@/lib/api'
 import Navbar from './components/Navbar'
@@ -51,6 +50,8 @@ export default function HomePage() {
       controller.abort(); // cancel fetch on unmount
     };
   }, []);
+
+  const handleSearch = useCallback((list: Task[]) => setData(list), [])
   
   
   return (
@@ -67,7 +68,7 @@ export default function HomePage() {
       />
       <div className="w-[90vw] m-auto mt-4">
         <div className="flex items-center gap-3">
-          <Search all={allData} onSearch={(list) => setData(list)} />
+          <Search all={allData} onSearch={handleSearch} />
           <Sort 
             onSort={(order: 'recent' | 'older') => {
               setAllData((prev) => applySort(prev, order))

@@ -1,4 +1,3 @@
-import { Task } from "@/types/task"
 import { useState } from "react"
 
 type SortProps = {

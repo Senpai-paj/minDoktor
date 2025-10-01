@@ -1,4 +1,3 @@
-import { Plus } from 'lucide-react';
 import Populate from './Populate'; 
 import { Task } from '@/types/task';
 
