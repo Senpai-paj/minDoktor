@@ -19,9 +19,10 @@ export async function createTask(task: Task): Promise<Task> {
     });
 }
 
-export async function getTasks(): Promise<Task[]> {
-    return api<Task[]>(`/tasks`, { method: "GET" });
+export async function getTasks(signal?: AbortSignal): Promise<Task[]> {
+    return api<Task[]>(`/tasks`, { method: "GET", signal });
 }
+  
 
 export async function editTask(task: Task): Promise<Task> {
     return api<Task>(`/edit`, {

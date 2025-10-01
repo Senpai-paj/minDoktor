@@ -7,10 +7,11 @@ import { getTasks } from '@/lib/api'
 import Navbar from './components/Navbar'
 import CreateTask from './components/CreateTask'
 import Search from './components/Search'
+import Sort from './components/Sort'
 
-async function fetchTasks(): Promise<Task[]> {
-  const res = await getTasks();
-  if (!res) throw new Error('Failed to fetch')
+async function fetchTasks(signal?: AbortSignal): Promise<Task[]> {
+  const res = await getTasks(signal);
+  if (!res) throw new Error("Failed to fetch");
   return res;
 }
 
@@ -19,22 +20,36 @@ export default function HomePage() {
   const [data, setData] = useState<Task[]>([])
   const [isCreateOpen, setIsCreateOpen] = useState(false)
 
+  function applySort(list: Task[], order: 'recent' | 'older') {
+    const copy = [...list]
+    copy.sort((a, b) => {
+      const da = new Date(a.dueDate).getTime()
+      const db = new Date(b.dueDate).getTime()
+      return order === 'recent' ? db - da : da - db
+    })
+    return copy
+  }
+
   useEffect(() => {
-    let cancelled = false
-    fetchTasks()
+    const controller = new AbortController();
+  
+    fetchTasks(controller.signal)
       .then((items) => {
-        if (!cancelled) {
-          setAllData(items)
-          setData(items)
-        }
+        const sorted = applySort(items, "recent");
+        setAllData(sorted);
+        setData(sorted);
       })
       .catch((err) => {
-        console.error('Failed to load Tasks', err)
-      })
+        if (err.name !== "AbortError") {
+          console.error("Failed to load Tasks", err);
+        }
+      });
+  
     return () => {
-      cancelled = true
-    }
-  }, [])
+      controller.abort(); // cancel fetch on unmount
+    };
+  }, []);
+  
   
   return (
     <div className='min-h-screen w-full bg-red-50'> 
@@ -49,7 +64,15 @@ export default function HomePage() {
         }}
       />
       <div className="w-[90vw] m-auto mt-4">
-        <Search all={allData} onSearch={setData} />
+        <div className="flex items-center gap-3">
+          <Search all={allData} onSearch={(list) => setData(list)} />
+          <Sort 
+            onSort={(order: 'recent' | 'older') => {
+              setAllData((prev) => applySort(prev, order))
+              setData((prev) => applySort(prev, order))
+            }} 
+          />
+        </div>
       </div>
       
       <div className="shadow-2xl rounded-xl h-[93vh] w-[90vw] m-auto mt-5">
@@ -60,6 +83,10 @@ export default function HomePage() {
             onDeleted={(id) => {
               setAllData((prev) => prev.filter((x) => x.id !== id))
               setData((prev) => prev.filter((x) => x.id !== id))
+            }}
+            onEdited={(task) => {
+              setAllData((prev) => prev.map((x) => x.id === task.id ? task : x))
+              setData((prev) => prev.map((x) => x.id === task.id ? task : x))
             }}
           />
         ))}

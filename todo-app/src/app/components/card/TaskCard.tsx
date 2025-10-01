@@ -10,6 +10,7 @@ type TaskCardProps = Task & { onDeleted?: (id: string) => void, onEdited?: (task
 export default function TaskCard(task: TaskCardProps) { 
 
     const [isEditOpen, setIsEditOpen] = useState(false)
+
     return (
         <div className="w-[80%] m-auto rounded-xl mt-5 overflow-hidden">
             <div className="bg-sky-950 p-3 rounded-t-xl">
