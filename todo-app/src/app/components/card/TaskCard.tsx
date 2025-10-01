@@ -1,7 +1,7 @@
 import { Task } from "@/types/task";
-import DeleteButton from "./DeleteButton";
-import EditButton from "./EditButton";
-import CheckButton from "./CheckButton";
+import DeleteButton from "./card-components/DeleteButton";
+import EditButton from "./card-components/EditButton";
+import CheckButton from "./card-components/CheckButton";
 import { useState } from "react";
 import EditTask from "../EditTask";
 
@@ -10,6 +10,16 @@ type TaskCardProps = Task & { onDeleted?: (id: string) => void, onEdited?: (task
 export default function TaskCard(task: TaskCardProps) { 
 
     const [isEditOpen, setIsEditOpen] = useState(false)
+
+    const deadline = (() => {
+        const taskDeadline = new Date(task.dueDate);
+        const currentDate = new Date();
+        const diffInDays = Math.ceil((taskDeadline.getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24));
+    
+        if (diffInDays === 1) return `Deadline in ${diffInDays} day`;
+        if (diffInDays <= 2) return `Deadline in ${diffInDays} days`;
+        return '';
+    })();
 
     return (
         <div className="w-[80%] m-auto rounded-xl mt-5 overflow-hidden">
@@ -43,12 +53,16 @@ export default function TaskCard(task: TaskCardProps) {
                     <DeleteButton id={task.id} onDeleted={task.onDeleted} /> 
                 </div>
             </div>
+            {deadline != '' && 
+
+             <div className="bg-red-400 rounded-b-[32px] text-center">
+             <div className="flex items-center justify-center ">
+                 <span className="text-gray-900 text-base font-medium">{deadline}</span>
+             </div>
+             </div>
             
-            <div className="bg-red-400 rounded-b-[32px] text-center">
-                <div className="flex items-center justify-center ">
-                    <span className="text-gray-900 text-base font-medium">2 days to deadline</span>
-                </div>
-            </div>
+            }
+           
             <EditTask
                 isOpen={isEditOpen}
                 task={task}
