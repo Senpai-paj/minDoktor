@@ -30,12 +30,26 @@ export default function TaskCard(task: TaskCardProps) {
                     </div>
                     {task.editDate && 
                         <div className="flex items-center text-gray-400">
-                            <span className="text-sm font-medium">edited {new Date(task.editDate).toLocaleDateString()}</span>
+                            <span className="text-sm font-medium" title={`edited ${new Date(task.editDate).toLocaleDateString()}`}>edited</span>
                         </div>
                     }
                     <div className="flex items-center ">
-                        <div className="w-2 h-2 bg-green-500 mr-1 rounded-full"></div>
-                        <span className="text-gray-400 text-sm font-medium">Prority</span>
+                        <div
+                            className={`w-2 h-2 mr-1 rounded-full ${
+                            task.priority === 0
+                                ? 'bg-green-500'
+                                : task.priority === 1
+                                ? 'bg-yellow-500'
+                                : 'bg-red-500'
+                            }`}
+                        ></div>
+                        <span className="text-gray-400 text-sm font-medium">
+                            {task.priority === 0
+                            ? 'Low'
+                            : task.priority === 1
+                            ? 'Medium'
+                            : 'Prior'}
+                        </span>
                     </div>
                     
                 </div>

@@ -13,10 +13,11 @@ type CreateTaskProps = {
 
 export default function CreateTask({ isOpen, onClose, onCreated }: CreateTaskProps) {
   const dialogRef = useRef<HTMLDivElement | null>(null)
-  const [title, setTitle] = useState('')
-  const [description, setDescription] = useState('')
-  const [dueDate, setDueDate] = useState('') // yyyy-mm-dd
-  const [submitting, setSubmitting] = useState(false)
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [dueDate, setDueDate] = useState('');
+  const [priority, setPriority] = useState(0);
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
@@ -38,6 +39,7 @@ export default function CreateTask({ isOpen, onClose, onCreated }: CreateTaskPro
         dueDate: new Date(dueDate),
         createDate: new Date(),
         status: false,
+        priority: priority,
       }
       const saved = await createTask(newTask)
       onCreated?.(saved)
@@ -106,6 +108,19 @@ export default function CreateTask({ isOpen, onClose, onCreated }: CreateTaskPro
               onChange={(e) => setDueDate(e.target.value)}
               required
             />
+          </div>
+          <div>
+            <label className="mb-1 block text-sm font-semibold">Priority</label>
+            <select
+              className="w-full rounded border px-3 py-2 outline-none bg-sky-950"
+              value={priority}
+              onChange={(e) => setPriority(Number(e.target.value))}
+              required
+            >
+              <option value={0}>Low</option>
+              <option value={1}>Medium</option>
+              <option value={2}>High</option>
+            </select>
           </div>
 
           <div className="mt-6 flex items-center justify-end gap-3">

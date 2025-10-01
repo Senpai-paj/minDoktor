@@ -23,7 +23,8 @@ export default function EditTask({ isOpen, task, onClose, onEdited }: EditTaskPr
   const dialogRef = useRef<HTMLDivElement | null>(null)
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
-  const [dueDate, setDueDate] = useState('') // yyyy-mm-dd
+  const [dueDate, setDueDate] = useState('')
+  const [priority, setPriority] = useState(0);
   const [submitting, setSubmitting] = useState(false)
 
   useEffect(() => {
@@ -38,6 +39,7 @@ export default function EditTask({ isOpen, task, onClose, onEdited }: EditTaskPr
     if (isOpen && task) {
       setTitle(task.title ?? '')
       setDescription(task.description ?? '')
+      setPriority(task.priority ?? 0)
       const asDate = new Date(task.dueDate)
       if (!isNaN(asDate.getTime())) setDueDate(formatDateInput(asDate))
       else setDueDate('')
@@ -56,6 +58,7 @@ export default function EditTask({ isOpen, task, onClose, onEdited }: EditTaskPr
         description: description.trim(),
         dueDate: new Date(dueDate),
         editDate: new Date(),
+        priority: priority,
       }
       const saved = await editTask(updated)
       onEdited?.(saved)
@@ -121,6 +124,19 @@ export default function EditTask({ isOpen, task, onClose, onEdited }: EditTaskPr
               onChange={(e) => setDueDate(e.target.value)}
               required
             />
+          </div>
+          <div>
+            <label className="mb-1 block text-sm font-semibold">Priority</label>
+            <select
+              className="w-full rounded border px-3 py-2 outline-none bg-sky-950"
+              value={priority}
+              onChange={(e) => setPriority(Number(e.target.value))}
+              required
+            >
+              <option value={0}>Low</option>
+              <option value={1}>Medium</option>
+              <option value={2}>High</option>
+            </select>
           </div>
 
           <div className="mt-6 flex items-center justify-end gap-3">
