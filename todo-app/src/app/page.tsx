@@ -22,7 +22,7 @@ export default function HomePage() {
   const [data, setData] = useState<Task[]>([])
   const [isCreateOpen, setIsCreateOpen] = useState(false)
 
-  function applySort(list: Task[], order: 'recent' | 'older') {
+  function applySort(list: Task[], order: string) {
     const copy = [...list]
     copy.sort((a, b) => {
       const da = new Date(a.dueDate).getTime()
@@ -37,9 +37,9 @@ export default function HomePage() {
   
     fetchTasks(controller.signal)
       .then((items) => {
-        const sorted = applySort(items, "recent");
-        setAllData(sorted);
-        setData(sorted);
+        
+        setAllData(items);
+        setData(items);
       })
       .catch((err) => {
         if (err.name !== "AbortError") {

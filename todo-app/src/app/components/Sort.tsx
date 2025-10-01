@@ -7,7 +7,7 @@ type SortProps = {
 
 export default function Sort({onSort}: SortProps) {
 
-    const [sortOrder, setSortOrder] = useState<'recent' | 'older'>('recent')
+    const [sortOrder, setSortOrder] = useState<string>('')
 
     return (
         <select
@@ -19,6 +19,7 @@ export default function Sort({onSort}: SortProps) {
               onSort(order)
             }}
           >
+            <option value="">Sort by due date</option>
             <option value="recent">Newest due first</option>
             <option value="older">Oldest due first</option>
           </select>
