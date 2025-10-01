@@ -55,7 +55,7 @@ export default function HomePage() {
   
   return (
     <div className='min-h-screen w-full bg-red-50'> 
-      <Navbar onCreateClick={() => setIsCreateOpen(true)} />
+      <Navbar onCreateClick={() => setIsCreateOpen(true)} setData={setData} setAllData={setAllData}/>
 
       <CreateTask
         isOpen={isCreateOpen}

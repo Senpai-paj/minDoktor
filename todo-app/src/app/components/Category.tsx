@@ -7,7 +7,7 @@ type CategoryProps = {
     tasks: Task[];
     setAllData: React.Dispatch<React.SetStateAction<Task[]>>;
     setData: React.Dispatch<React.SetStateAction<Task[]>>;
-  }
+}
   
 
 export default function Category({ tasks, setAllData, setData }: CategoryProps) {

@@ -43,3 +43,7 @@ export async function deleteTask(id: string): Promise<{ success: boolean } | Tas
 export async function searchTasks(query: string): Promise<Task[]> {
     return api<Task[]>(`/search?q=${encodeURIComponent(query)}`, { method: "GET" });
 }
+
+export async function populate(signal?: AbortSignal): Promise<Task[]> {
+    return api<Task[]>(`/populate`, { method: "POST", signal });
+}
