@@ -9,7 +9,8 @@ type TaskCardProps = Task & { onDeleted?: (id: string) => void, onEdited?: (task
 
 export default function TaskCard(task: TaskCardProps) { 
 
-    const [isEditOpen, setIsEditOpen] = useState(false)
+    const [isEditOpen, setIsEditOpen] = useState(false);
+    const [checked, setChecked] = useState(task.status ?? false);
 
     const deadline = (() => {
         const taskDeadline = new Date(task.dueDate);
@@ -23,9 +24,9 @@ export default function TaskCard(task: TaskCardProps) {
 
     return (
         <div className="w-[80%] m-auto rounded-xl mt-5 overflow-hidden">
-            <div className="bg-sky-950 p-3 rounded-t-xl">
+            <div className={`${!checked ? 'bg-sky-950' : 'bg-slate-600'} p-3 rounded-t-xl`}>
                 <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center text-gray-400">
+                    <div className="flex items-center">
                         <span className="text-sm font-medium">due to {new Date(task.dueDate).toLocaleDateString()}</span>
                     </div>
                     {task.editDate && 
@@ -62,8 +63,8 @@ export default function TaskCard(task: TaskCardProps) {
                 </div>
                 
                 <div className="flex items-center justify-between">
-                    <CheckButton/>
-                    <EditButton onClick={() => setIsEditOpen(true)} />
+                    {!checked && <CheckButton setChecked={setChecked} />}
+                    {!checked && <EditButton onClick={() => setIsEditOpen(true)} />}
                     <DeleteButton id={task.id} onDeleted={task.onDeleted} /> 
                 </div>
             </div>
