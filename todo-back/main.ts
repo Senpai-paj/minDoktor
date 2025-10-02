@@ -1,5 +1,5 @@
 import { jsonResponse, handleCors } from "./utils.ts";
-import { handleCreateTask, handleGetTasks, handleEdit, handleDeleteTask } from "./controller.ts";
+import { handleCreateTask, handleGetTasks, handleEdit, handleDeleteTask, handlePopulate, handleCheck } from "./controller.ts";
 
 // In-memory seed removed; using repository-backed storage
 
@@ -20,12 +20,20 @@ Deno.serve(async (req) => {
     return await handleEdit(req);
   }
 
+  if (req.method === "PUT" && url.pathname === "/check") {
+    return await handleCheck(req);
+  }
+
   if (req.method === "POST" && url.pathname === "/create") {
     return await handleCreateTask(req);
   }
 
   if (req.method === "DELETE" && url.pathname === "/delete") {
     return await handleDeleteTask(req);
+  }
+
+  if (req.method === "POST" && url.pathname === "/populate") {
+    return await handlePopulate();
   }
 
   return jsonResponse({ error: "Not found" }, 404);
