@@ -45,10 +45,9 @@ export default function DeleteButton({ id, onDeleted, holdDuration = 3000, ...pr
   return (
     <button
       className="min-w-40 relative overflow-hidden rounded-2xl
-                 bg-sky-950 hover:bg-red-700/20 
-                 text-red-400 border 
-                 border-red-400 cursor-pointer"
-      
+                 bg-gray-50 hover:bg-red-50
+                 text-red-600 border border-red-300 cursor-pointer
+                 transition-colors duration-200 flex items-center justify-center gap-2 px-4"
       onMouseDown={handleHoldStart}
       onMouseUp={handleHoldEnd}
       onMouseLeave={handleHoldEnd}
@@ -57,15 +56,17 @@ export default function DeleteButton({ id, onDeleted, holdDuration = 3000, ...pr
       onTouchCancel={handleHoldEnd}
       {...props}
     >
+      
       <motion.div
         initial={{ width: "0%" }}
         animate={controls}
-        className="absolute left-0 h-full bg-red-200/30 dark:bg-red-600/40"
+        className="absolute left-0 h-full bg-red-200/70"
       />
-      <span className="relative z-10 w-full flex items-center justify-center gap-2">
+
+      <span className="relative z-10 flex items-center gap-2 text-sm font-medium">
         <Trash2Icon className="w-4 h-4" />
         {!isHolding ? "Hold to delete" : "Deleting..."}
       </span>
     </button>
-  )
+  );
 }

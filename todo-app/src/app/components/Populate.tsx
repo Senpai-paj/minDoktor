@@ -24,12 +24,12 @@ export default function Populate( {setData, setAllData} : PopulateProps) {
         });
       
     return () => {
-        controller.abort(); // cancel fetch on unmount
+        controller.abort(); 
     };
   }
 
   return (
-    <button className='cursor-pointer' title="Click to populate" onClick={handlePopulate}><BadgePlus/></button>
+    <button className='cursor-pointer text-slate-700' title="Click to populate" onClick={handlePopulate}><BadgePlus/></button>
   )
 }
 

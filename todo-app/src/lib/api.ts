@@ -47,3 +47,11 @@ export async function searchTasks(query: string): Promise<Task[]> {
 export async function populate(signal?: AbortSignal): Promise<Task[]> {
     return api<Task[]>(`/populate`, { method: "POST", signal });
 }
+
+export async function check(id: string): Promise<Task> {
+    return api<Task>(`/check`, { 
+        method: "PUT", 
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(id) 
+    });
+}

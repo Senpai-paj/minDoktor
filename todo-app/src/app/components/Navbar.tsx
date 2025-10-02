@@ -7,16 +7,26 @@ type NavbarProps = {
     setAllData: React.Dispatch<React.SetStateAction<Task[]>>;
 }
 
-export default function Navbar({onCreateClick, setData, setAllData} : NavbarProps) {
-
+export default function Navbar({ onCreateClick, setData, setAllData }: NavbarProps) {
     return (
-        <div className="flex justify-around bg-sky-950 h-[5vh] w-full">
-            <h1 className="text-xl m-3 p-2 font-medium cursor-default">Min Todo</h1>
-            <button onClick={onCreateClick} className="size-10 cursor-pointer m-3 p-2 px-5 bg-sky-950 border border-slate-300 duration-300 hover:bg-sky-800 text-slate-200 text-black border-slate-300 w-fit rounded-2xl">+ Skappa</button>
-            <Populate setData={setData} setAllData={setAllData}/>
+      <nav className="w-full bg-gray-50 shadow-md">
+        <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+  
+          <h1 className="text-xl font-semibold text-gray-800 cursor-default">
+            Min Todo
+          </h1>
+
+          <div className="flex items-center gap-4">
+            <button
+              onClick={onCreateClick}
+              className="px-4 py-2 rounded-lg border border-gray-300 bg-gray-50 cursor-pointer text-gray-700 hover:bg-gray-100 transition"
+            >
+              + Create
+            </button>
+            <Populate setData={setData} setAllData={setAllData} />
+          </div>
         </div>
-    )
-}
-
-
+      </nav>
+    );
+  }
                 

@@ -6,11 +6,11 @@ export default function EditButton({ onClick }: EditButtonProps) {
 
   return (
     <button
-      className="min-w-40 relative overflow-hidden rounded-2xl hover:bg-slate-200/20 
-                border border-slate-300 cursor-pointer"
+      className="min-w-40 rounded-2xl border border-gray-300 bg-gray-50 text-gray-700
+                hover:bg-gray-100 cursor-pointer transition-colors duration-200 flex-1 min-w-[80px] max-w-[150px] text-center"
       onClick={onClick}
     >
-      <span className="relative z-10 w-full flex items-center justify-center gap-2">
+      <span className="z-10 w-full flex items-center justify-center gap-2">
         Edit
       </span>
     </button>
