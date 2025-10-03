@@ -47,7 +47,7 @@ export default function CheckButton({ setChecked, taskId, onEdited }: CheckButto
           setChecked(true);
           onEdited?.(updatedTask);
         })
-        .catch((err: any) => {
+        .catch((err: unknown) => {
           console.error("Failed to check task:", err);
         })
         .finally(() => {

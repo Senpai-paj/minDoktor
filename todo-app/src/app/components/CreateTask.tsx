@@ -79,7 +79,7 @@ export default function CreateTask({ isOpen, onClose, onCreated }: CreateTaskPro
         setDescription('');
         setDueDate('');
       })
-      .catch((err: any) => {
+      .catch((err: unknown) => {
         console.error("Failed to create task", err);
       })
       .finally(() => {

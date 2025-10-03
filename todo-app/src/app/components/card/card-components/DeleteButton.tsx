@@ -52,7 +52,7 @@ export default function DeleteButton({ id, onDeleted, holdDuration = 3000, ...pr
       .then(() => {
         onDeleted?.(id);
       })
-      .catch((err: any) => {
+      .catch((err: unknown) => {
         console.error("Failed to delete task", err);
       })
       .finally(() => {

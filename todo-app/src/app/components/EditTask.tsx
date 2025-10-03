@@ -108,9 +108,13 @@ export default function EditTask({ isOpen, task, onClose, onEdited }: EditTaskPr
         onEdited?.(saved);
         onClose();
       })
-      .catch((err: any) => {
-        if (err.name !== "AbortError") {
-          console.error("Edit failed", err);
+      .catch((err: unknown) => {
+        if (err instanceof Error) {
+          if (err.name !== "AbortError") {
+            console.error("Edit failed", err);
+          }
+        } else {
+          console.error("Edit failed (non-Error)", err);
         }
       })
       .finally(() => {
