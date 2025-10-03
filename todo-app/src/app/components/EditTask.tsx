@@ -1,3 +1,10 @@
+/**
+ * EditTask component for editing an existing todo task.
+ * Manages the task editing dialog UI, form state, and submission logic.
+ *
+ * @module EditTask
+ */
+
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
@@ -5,6 +12,14 @@ import { edit } from '@/lib/serivces/task.Service'
 import { X } from 'lucide-react'
 import type { Task } from '@/types/task'
 
+/**
+ * Props for EditTask component.
+ * @typedef {Object} EditTaskProps
+ * @property {boolean} isOpen - Whether the dialog is open.
+ * @property {Task | null} task - The task to edit.
+ * @property {() => void} onClose - Callback to close the dialog.
+ * @property {(task: Task) => void} [onEdited] - Optional callback run after task edit.
+ */
 type EditTaskProps = {
   isOpen: boolean
   task: Task | null
@@ -12,6 +27,12 @@ type EditTaskProps = {
   onEdited?: (task: Task) => void
 }
 
+/**
+ * EditTask dialog component.
+ *
+ * @param {EditTaskProps} props - Props for the component.
+ * @returns {JSX.Element|null} The rendered task editing dialog, or null if not shown.
+ */
 export default function EditTask({ isOpen, task, onClose, onEdited }: EditTaskProps) {
   const dialogRef = useRef<HTMLDivElement | null>(null);
 
@@ -23,8 +44,16 @@ export default function EditTask({ isOpen, task, onClose, onEdited }: EditTaskPr
   const [show, setShow] = useState(false);
   const [mounted, setMounted] = useState(false);
 
+  /**
+   * Formats the date for use in the input[type="date"].
+   * @param {Date} date
+   * @returns {string} ISO date string (YYYY-MM-DD)
+   */
   const formatDateInput = (date: Date) => date.toISOString().split("T")[0];
 
+  /**
+   * Effect to handle Escape key closing the dialog.
+   */
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
       if (e.key === "Escape") onClose();
@@ -33,6 +62,9 @@ export default function EditTask({ isOpen, task, onClose, onEdited }: EditTaskPr
     return () => document.removeEventListener("keydown", onKey);
   }, [isOpen, onClose]);
 
+  /**
+   * Effect to populate form fields when opening dialog with a task.
+   */
   useEffect(() => {
     if (isOpen && task) {
       setShow(true); 
@@ -45,21 +77,23 @@ export default function EditTask({ isOpen, task, onClose, onEdited }: EditTaskPr
       const timer = setTimeout(() => setMounted(true), 10);
       return () => clearTimeout(timer);
     } else {
-
       setMounted(false);
       const timer = setTimeout(() => setShow(false), 500);
       return () => clearTimeout(timer);
     }
   }, [isOpen, task]);
 
+  /**
+   * Handles the form submission to edit an existing task.
+   * @param {React.FormEvent} e - Form submission event.
+   */
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!task) return;
     if (!title.trim() || !dueDate) return;
-  
+
     setSubmitting(true);
-  
-  
+
     const updated: Task = {
       ...task,
       title: title.trim(),
@@ -68,7 +102,7 @@ export default function EditTask({ isOpen, task, onClose, onEdited }: EditTaskPr
       editDate: new Date(),
       priority,
     };
-  
+
     edit(updated)
       .then((saved) => {
         onEdited?.(saved);
@@ -83,7 +117,6 @@ export default function EditTask({ isOpen, task, onClose, onEdited }: EditTaskPr
         setSubmitting(false);
       });
   }
-  
 
   if (!show) return null;
 
@@ -102,7 +135,6 @@ export default function EditTask({ isOpen, task, onClose, onEdited }: EditTaskPr
           backdrop-blur-xl bg-gray-900/10 border-r border-sky-300/20 shadow-2xl`}
       >
         <div className="p-6 h-full flex flex-col">
-          
           <div className="mb-4 flex items-center justify-between">
             <h2 className="text-xl cursor-default font-semibold">Edit Task</h2>
             <button
@@ -115,7 +147,6 @@ export default function EditTask({ isOpen, task, onClose, onEdited }: EditTaskPr
             </button>
           </div>
 
-          
           <form onSubmit={handleSubmit} className="space-y-4 flex-1 overflow-y-auto">
             <div>
               <label className="mb-1 block font-semibold text-sm">Title</label>
@@ -131,16 +162,15 @@ export default function EditTask({ isOpen, task, onClose, onEdited }: EditTaskPr
             <div>
               <label className="mb-1 block text-sm">Description</label>
               <textarea
-                className="w-full rounded border border-dashed px-3 py-2 outline-none bg-sky-950/40 border-slate-500"
-                rows={4}
+                className="w-full rounded border px-3 py-2 outline-none bg-sky-950/40"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                placeholder="Details..."
+                placeholder="Task description"
               />
             </div>
 
             <div>
-              <label className="mb-1 block text-sm">Due date</label>
+              <label className="mb-1 block text-sm">Due Date</label>
               <input
                 type="date"
                 className="w-full rounded border px-3 py-2 outline-none bg-sky-950/40"
@@ -151,41 +181,27 @@ export default function EditTask({ isOpen, task, onClose, onEdited }: EditTaskPr
             </div>
 
             <div>
-              <label className="mb-1 block text-sm font-semibold">Priority</label>
-              <select
+              <label className="mb-1 block text-sm">Priority</label>
+              <input
+                type="number"
+                min={0}
+                max={10}
                 className="w-full rounded border px-3 py-2 outline-none bg-sky-950/40"
                 value={priority}
                 onChange={(e) => setPriority(Number(e.target.value))}
-                required
-              >
-                <option value={0}>Low</option>
-                <option value={1}>Medium</option>
-                <option value={2}>High</option>
-              </select>
+              />
             </div>
 
-            
-            <div className="mt-6 flex items-center justify-end gap-3">
-              <button
-                type="button"
-                onClick={onClose}
-                className="rounded-3xl cursor-pointer border px-4 py-2 duration-200 hover:bg-sky-900/60"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                disabled={submitting}
-                className="rounded-3xl bg-green-700 cursor-pointer px-4 duration-300 py-2 text-white hover:bg-green-500 disabled:opacity-60"
-              >
-                {submitting ? "Saving..." : "Save"}
-              </button>
-            </div>
+            <button
+              type="submit"
+              disabled={submitting}
+              className="w-full rounded-lg bg-blue-600 text-white px-4 py-2 hover:bg-blue-700 transition disabled:bg-gray-400"
+            >
+              {submitting ? "Editing..." : "Edit Task"}
+            </button>
           </form>
         </div>
       </div>
     </div>
   );
 }
-
-

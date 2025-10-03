@@ -1,3 +1,10 @@
+/**
+ * CreateTask component for creating a new todo task.
+ * Manages the task creation dialog UI, form state, and submission logic.
+ *
+ * @module CreateTask
+ */
+
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
@@ -5,12 +12,25 @@ import { create } from '@/lib/serivces/task.Service'
 import { X } from 'lucide-react';
 import type { Task } from '@/types/task'
 
+/**
+ * Props for CreateTask component.
+ * @typedef {Object} CreateTaskProps
+ * @property {boolean} isOpen - Whether the dialog is open.
+ * @property {() => void} onClose - Callback to close the dialog.
+ * @property {(task: Task) => void} [onCreated] - Optional callback run after task creation.
+ */
 type CreateTaskProps = {
   isOpen: boolean
   onClose: () => void
   onCreated?: (task: Task) => void
 }
 
+/**
+ * CreateTask dialog component.
+ *
+ * @param {CreateTaskProps} props - Props for the component.
+ * @returns {JSX.Element} The rendered task creation dialog.
+ */
 export default function CreateTask({ isOpen, onClose, onCreated }: CreateTaskProps) {
   const dialogRef = useRef<HTMLDivElement | null>(null)
   const [title, setTitle] = useState('');
@@ -19,6 +39,9 @@ export default function CreateTask({ isOpen, onClose, onCreated }: CreateTaskPro
   const [priority, setPriority] = useState(0);
   const [submitting, setSubmitting] = useState(false);
 
+  /**
+   * Effect to handle Escape key closing the dialog.
+   */
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
       if (e.key === 'Escape') onClose()
@@ -27,37 +50,41 @@ export default function CreateTask({ isOpen, onClose, onCreated }: CreateTaskPro
     return () => document.removeEventListener('keydown', onKey)
   }, [isOpen, onClose])
 
+  /**
+   * Handles the form submission to create a new task.
+   * @param {React.FormEvent} e - Form submission event.
+   */
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-  if (!title.trim() || !dueDate) return;
+    if (!title.trim() || !dueDate) return;
 
-  setSubmitting(true);
+    setSubmitting(true);
 
-  const newTask: Task = {
-    id: crypto.randomUUID(),
-    title: title.trim(),
-    description: description.trim(),
-    dueDate: new Date(dueDate),
-    createDate: new Date(),
-    status: false,
-    priority,
-  };
+    const newTask: Task = {
+      id: crypto.randomUUID(),
+      title: title.trim(),
+      description: description.trim(),
+      dueDate: new Date(dueDate),
+      createDate: new Date(),
+      status: false,
+      priority,
+    };
 
-  create(newTask)
-    .then((saved) => {
-      onCreated?.(saved);
-      onClose();
+    create(newTask)
+      .then((saved) => {
+        onCreated?.(saved);
+        onClose();
 
-      setTitle('');
-      setDescription('');
-      setDueDate('');
-    })
-    .catch((err: any) => {
-      console.error("Failed to create task", err);
-    })
-    .finally(() => {
-      setSubmitting(false);
-    });
+        setTitle('');
+        setDescription('');
+        setDueDate('');
+      })
+      .catch((err: any) => {
+        console.error("Failed to create task", err);
+      })
+      .finally(() => {
+        setSubmitting(false);
+      });
   }
 
   return (
@@ -101,16 +128,15 @@ export default function CreateTask({ isOpen, onClose, onCreated }: CreateTaskPro
             <div>
               <label className="mb-1 block text-sm">Description</label>
               <textarea
-                className="w-full rounded border border-dashed px-3 py-2 outline-none bg-sky-950/40 border-slate-500"
-                rows={4}
+                className="w-full rounded border px-3 py-2 outline-none bg-sky-950/40"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                placeholder="Details..."
+                placeholder="Task description"
               />
             </div>
 
             <div>
-              <label className="mb-1 block text-sm">Due date</label>
+              <label className="mb-1 block text-sm">Due Date</label>
               <input
                 type="date"
                 className="w-full rounded border px-3 py-2 outline-none bg-sky-950/40"
@@ -119,39 +145,29 @@ export default function CreateTask({ isOpen, onClose, onCreated }: CreateTaskPro
                 required
               />
             </div>
+
             <div>
-              <label className="mb-1 block text-sm font-semibold">Priority</label>
-              <select
+              <label className="mb-1 block text-sm">Priority</label>
+              <input
+                type="number"
+                min={0}
+                max={10}
                 className="w-full rounded border px-3 py-2 outline-none bg-sky-950/40"
                 value={priority}
                 onChange={(e) => setPriority(Number(e.target.value))}
-                required
-              >
-                <option value={0}>Low</option>
-                <option value={1}>Medium</option>
-                <option value={2}>High</option>
-              </select>
+              />
             </div>
 
-            <div className="mt-6 flex items-center justify-end gap-3">
-              <button
-                type="button"
-                onClick={onClose}
-                className="rounded-3xl cursor-pointer border px-4 py-2 duration-200 hover:bg-sky-900/60 "
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                disabled={submitting}
-                className="rounded-3xl bg-green-700 cursor-pointer px-4 durtation-300 py-2 text-white hover:bg-green-500 disabled:opacity-60"
-              >
-                {submitting ? 'Creating...' : 'Create'}
-              </button>
-            </div>
+            <button
+              type="submit"
+              disabled={submitting}
+              className="w-full rounded-lg bg-blue-600 text-white px-4 py-2 hover:bg-blue-700 transition disabled:bg-gray-400"
+            >
+              {submitting ? "Creating..." : "Create Task"}
+            </button>
           </form>
         </div>
       </div>
     </div>
-  )
+  );
 }

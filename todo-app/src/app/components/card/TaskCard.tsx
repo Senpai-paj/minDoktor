@@ -1,3 +1,11 @@
+/**
+ * TaskCard component for displaying an individual todo task.
+ * Shows task details, due date, priority, edit status, and action buttons.
+ * Handles editing, checking, and deleting a task.
+ *
+ * @module TaskCard
+ */
+
 import { Task } from "@/types/task";
 import DeleteButton from "./card-components/DeleteButton";
 import EditButton from "./card-components/EditButton";
@@ -5,24 +13,39 @@ import CheckButton from "./card-components/CheckButton";
 import { useState } from "react";
 import EditTask from "../EditTask";
 
+/**
+ * Props for TaskCard component (extends Task).
+ * @typedef {Object} TaskCardProps
+ * @property {(id: string) => void} [onDeleted] - Callback for deleting the task.
+ * @property {(task: Task) => void} [onEdited] - Callback for editing the task.
+ */
 type TaskCardProps = Task & { onDeleted?: (id: string) => void, onEdited?: (task: Task) => void }
 
+/**
+ * Renders a card displaying task information and actions.
+ *
+ * @param {TaskCardProps} task - Props for the task card.
+ * @returns {JSX.Element} The rendered task card.
+ */
 export default function TaskCard(task: TaskCardProps) {
     const [isEditOpen, setIsEditOpen] = useState(false);
     const [checked, setChecked] = useState(task.status ?? false);
-  
+
+    /**
+     * Computes the deadline warning string (if near deadline).
+     */
     const deadline = (() => {
       const taskDeadline = new Date(task.dueDate);
       const currentDate = new Date();
       const diffInDays = Math.ceil(
         (taskDeadline.getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24)
       );
-  
+
       if (diffInDays === 1) return `Deadline in ${diffInDays} day`;
       if (diffInDays <= 2) return `Deadline in ${diffInDays} days`;
       return '';
     })();
-  
+
     return (
       <div className="w-full max-w-2xl bg-gray-50 border border-gray-200 shadow-md rounded-xl p-4">
         {/* Header section */}
@@ -53,7 +76,7 @@ export default function TaskCard(task: TaskCardProps) {
             </span>
           </div>
         </div>
-  
+
         <h1 className={`text-lg font-semibold ${checked ? 'line-through text-gray-400' : 'text-gray-800'}`}>
           {task.title}
         </h1>
@@ -64,13 +87,13 @@ export default function TaskCard(task: TaskCardProps) {
           {!checked && <EditButton onClick={() => setIsEditOpen(true)} />}
           <DeleteButton id={task.id} onDeleted={task.onDeleted} />
         </div>
-  
+
         {((deadline !== '') && !checked) && (
           <div className="mt-3 p-2 rounded-lg bg-red-100 text-center">
             <span className="text-red-700 text-sm font-medium">{deadline}</span>
           </div>
         )}
-  
+
         <EditTask
           isOpen={isEditOpen}
           task={task}
@@ -79,7 +102,4 @@ export default function TaskCard(task: TaskCardProps) {
         />
       </div>
     );
-  }
-  
-
-
+}

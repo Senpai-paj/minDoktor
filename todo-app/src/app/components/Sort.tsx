@@ -1,9 +1,27 @@
+/**
+ * Sort component for sorting tasks by due date.
+ * Provides a dropdown UI for selecting sort order (recent/older).
+ *
+ * @module Sort
+ */
+
 import { useState } from "react"
 
+/**
+ * Props for Sort component.
+ * @typedef {Object} SortProps
+ * @property {(order: 'recent' | 'older') => void} onSort - Callback called with selected sort order.
+ */
 type SortProps = {
     onSort: (order: 'recent' | 'older') => void
 }
 
+/**
+ * Sort dropdown component.
+ *
+ * @param {SortProps} props - Props for the component.
+ * @returns {JSX.Element} The rendered dropdown.
+ */
 export default function Sort({ onSort }: SortProps) {
   const [sortOrder, setSortOrder] = useState<string>("");
 

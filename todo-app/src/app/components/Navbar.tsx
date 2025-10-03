@@ -1,12 +1,33 @@
+/**
+ * Navbar component for the todo application.
+ * Displays the app title, create button, and populate button.
+ * Handles triggering task creation and populating sample data.
+ *
+ * @module Navbar
+ */
+
 import Populate from './Populate'; 
 import { Task } from '@/types/task';
 
+/**
+ * Props for Navbar component.
+ * @typedef {Object} NavbarProps
+ * @property {() => void} onCreateClick - Callback to open the create task dialog.
+ * @property {React.Dispatch<React.SetStateAction<Task[]>>} setData - Setter for displayed tasks.
+ * @property {React.Dispatch<React.SetStateAction<Task[]>>} setAllData - Setter for all tasks.
+ */
 type NavbarProps = {
     onCreateClick: () => void,
     setData: React.Dispatch<React.SetStateAction<Task[]>>;
     setAllData: React.Dispatch<React.SetStateAction<Task[]>>;
 }
 
+/**
+ * Navbar component for main navigation and quick actions.
+ *
+ * @param {NavbarProps} props - Props for the component.
+ * @returns {JSX.Element} The rendered navbar.
+ */
 export default function Navbar({ onCreateClick, setData, setAllData }: NavbarProps) {
     return (
       <nav className="w-full bg-gray-50 shadow-md">
@@ -28,5 +49,4 @@ export default function Navbar({ onCreateClick, setData, setAllData }: NavbarPro
         </div>
       </nav>
     );
-  }
-                
+}

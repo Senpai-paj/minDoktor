@@ -1,9 +1,26 @@
+/**
+ * EditButton component for triggering task editing.
+ * Renders a styled button that calls onClick when pressed.
+ *
+ * @module EditButton
+ */
+
+/**
+ * Props for EditButton component.
+ * @typedef {Object} EditButtonProps
+ * @property {() => void} [onClick] - Callback to trigger editing.
+ */
 type EditButtonProps = {
   onClick?: () => void
 }
 
+/**
+ * Edit task button component.
+ *
+ * @param {EditButtonProps} props - Props for the component.
+ * @returns {JSX.Element} The rendered edit button.
+ */
 export default function EditButton({ onClick }: EditButtonProps) {
-
   return (
     <button
       className="min-w-40 rounded-2xl border border-gray-300 bg-gray-50 text-gray-700

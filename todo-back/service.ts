@@ -1,10 +1,26 @@
+/**
+ * Service layer for business logic related to tasks.
+ * Handles operations such as retrieving, creating, editing, deleting, searching, populating, and checking tasks.
+ *
+ * @module service
+ */
+
 import { Task } from "./types.ts";
 import { readAllTasks, writeAllTasks } from "./repository.ts";
 
+/**
+ * Retrieves all tasks from storage.
+ * @returns {Promise<Task[]>} Array of all tasks.
+ */
 export async function getAllTasks(): Promise<Task[]> {
   return await readAllTasks();
 }
 
+/**
+ * Creates a new task and saves it to storage.
+ * @param {Task} newTask - The task object to create.
+ * @returns {Promise<Task>} The created task.
+ */
 export async function createTask(newTask: Task): Promise<Task> {
   const tasks = await readAllTasks();
   tasks.push(newTask);
@@ -12,6 +28,12 @@ export async function createTask(newTask: Task): Promise<Task> {
   return newTask;
 }
 
+/**
+ * Edits an existing task or adds it if not found.
+ * Updates the editDate property before saving.
+ * @param {Task} editTask - The edited task object.
+ * @returns {Promise<Task>} The edited task.
+ */
 export async function editTask(editTask: Task): Promise<Task> {
   const tasks = await readAllTasks();
   const index = tasks.findIndex(task => task.id === editTask.id);
@@ -29,20 +51,33 @@ export async function editTask(editTask: Task): Promise<Task> {
   return editTask;
 }
 
+/**
+ * Finds tasks by matching title with the given query (case-insensitive).
+ * @param {string} query - Search query for task title.
+ * @returns {Promise<Task[]>} Array of matching tasks.
+ */
 export async function findTasksByName(query: string): Promise<Task[]> {
   const tasks = await readAllTasks();
   const normalized = query.trim().toLowerCase();
   return tasks.filter(t => t.title.toLowerCase().includes(normalized));
 }
 
-export async function deleteTask(id: string) {
-
+/**
+ * Deletes a task by its ID.
+ * @param {string} id - ID of the task to delete.
+ * @returns {Promise<string>} Status message.
+ */
+export async function deleteTask(id: string): Promise<string> {
   const tasks = await readAllTasks();
   const newTasks = tasks.filter(task => task.id !== id);
   await writeAllTasks(newTasks);
   return 'task deleted';
 }
 
+/**
+ * Populates storage with sample data (seed tasks).
+ * @returns {Promise<void>} Resolves when data is populated.
+ */
 export async function populate() {
   const rawData = [
       {
@@ -184,6 +219,12 @@ export async function populate() {
   return tasks;
 }
 
+/**
+ * Checks or unchecks a task's completion status by ID.
+ * Marks the task as complete/incomplete and updates storage.
+ * @param {string} id - ID of the task to check/uncheck.
+ * @returns {Promise<string>} Status message.
+ */
 export async function checkTask(id: string): Promise<Task> {
   const tasks = await readAllTasks();
   const updatedTasks = tasks.map(t => t.id === id ? { ...t, status: true } : t);
