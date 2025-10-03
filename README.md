@@ -14,8 +14,6 @@ A project repository structured into two main parts:
 - [API Documentation](#api-documentation)
 - [Common Pitfalls & Solutions](#common-pitfalls--solutions)
 - [Getting Help](#getting-help)
-- [Contributing](#contributing)
-- [License](#license)
 
 ---
 
@@ -144,150 +142,181 @@ You’ll need Node.js,  npm and Deno.
 ## API Documentation
 
 ### Base URL
-`http://<your-backend-domain>/api/`
+
+```
+http://<your-backend-domain>/api/
+```
+
+---
+
+### Task Object Schema
+
+```json
+{
+  "id": "uuid (string, auto-generated)",
+  "title": "string (required, max 255 chars)",
+  "description": "string (optional)",
+  "dueDate": "ISO 8601 date string",
+  "createDate": "ISO 8601 date string (auto-generated)",
+  "status": "boolean (false = pending, true = done)",
+  "priority": "integer (1 = low, 2 = medium, 3 = high)"
+}
+```
+
+---
 
 ### Common Endpoints
 
-#### `GET /api/tasks`
-- **Description:** Fetch all tasks items.
-- **Response:**
-    ```json
-    [
-      {
-        "id": "ef24b760-f7d4-4b80-a63c-121ad2a30717",
-        "title": "Plan quarterly roadma",
-        "description": "Draft the Q4 roadmap including milestones and dependencies.",
-        "dueDate": "2025-10-03T00:00:00.000Z",
-        "createDate": "2025-09-28T10:10:00.000Z",
-        "status": false,
-        "priority": 2
-      },
-      ...tasks
-    ]
-    ```
+#### GET /api/tasks
 
-#### `POST /api/create`
-- **Description:** Create a new todo item.
-- **Body:**
-    ```json
-      {
-        "id": "ef24b760-f7d4-4b80-a63c-121ad2a30717",
-        "title": "Plan quarterly roadma",
-        "description": "Draft the Q4 roadmap including milestones and dependencies.",
-        "dueDate": "2025-10-03T00:00:00.000Z",
-        "createDate": "2025-09-28T10:10:00.000Z",
-        "status": false,
-        "priority": 2
-      }
-    ```
+- **Description:** Fetch all tasks or search by title.
+- **Query Parameters (optional):**
+  - `title` → search by title (e.g. `/api/tasks?title=plan`)
 - **Response:**
-    ```json
-      {
-        "id": "ef24b760-f7d4-4b80-a63c-121ad2a30717",
-        "title": "Plan quarterly roadma",
-        "description": "Draft the Q4 roadmap including milestones and dependencies.",
-        "dueDate": "2025-10-03T00:00:00.000Z",
-        "createDate": "2025-09-28T10:10:00.000Z",
-        "status": false,
-        "priority": 2
-      }
-    ```
-#### `PUT /api/edit`
-- **Description:** Edit existed todo item.
-- **Body:**
-    ```json
-      {
-        "id": "ef24b760-f7d4-4b80-a63c-121ad2a30717",
-        "title": "Plan quarterly roadma",
-        "description": "Draft the Q4 roadmap including milestones and dependencies.",
-        "dueDate": "2025-10-03T00:00:00.000Z",
-        "createDate": "2025-09-28T10:10:00.000Z",
-        "status": false,
-        "priority": 2
-      }
-    ```
-- **Response:**
-    ```json
-      {
-        "id": "ef24b760-f7d4-4b80-a63c-121ad2a30717",
-        "title": "Plan quarterly roadma",
-        "description": "Draft the Q4 roadmap including milestones and dependencies.",
-        "dueDate": "2025-10-03T00:00:00.000Z",
-        "createDate": "2025-09-28T10:10:00.000Z",
-        "status": false,
-        "priority": 2
-      }
-    ```
+  ```json
+  [
+    {
+      "id": "ef24b760-f7d4-4b80-a63c-121ad2a30717",
+      "title": "Plan quarterly roadmap",
+      "description": "Draft the Q4 roadmap including milestones and dependencies.",
+      "dueDate": "2025-10-03T00:00:00.000Z",
+      "createDate": "2025-09-28T10:10:00.000Z",
+      "status": false,
+      "priority": 2
+    },
+    ...tasks
+  ]
+  ```
 
-#### `DELETE /api/delete`
-- **Description:** Delete a todo item by ID.
+---
+
+#### POST /api/create
+
+- **Description:** Create a new task.
 - **Body:**
   ```json
-    { "id": "ef24b760-f7d4-4b80-a63c-121ad2a30717" }
-  ```  
+  {
+    "title": "Plan quarterly roadmap",
+    "description": "Draft the Q4 roadmap including milestones and dependencies.",
+    "dueDate": "2025-10-03T00:00:00.000Z",
+    "priority": 2
+  }
+  ```
 - **Response:**
-   ```json
-   { 'task deleted' }
-   ```
+  ```json
+  {
+    "id": "ef24b760-f7d4-4b80-a63c-121ad2a30717",
+    "title": "Plan quarterly roadmap",
+    "description": "Draft the Q4 roadmap including milestones and dependencies.",
+    "dueDate": "2025-10-03T00:00:00.000Z",
+    "createDate": "2025-09-28T10:10:00.000Z",
+    "status": false,
+    "priority": 2
+  }
+  ```
 
-#### `GET /api/tasks`
-- **Description:** Search task by title.
-- **Query:**
-  ```sh
-    "plan"
-  ```  
+---
+
+#### PUT /api/edit
+
+- **Description:** Edit an existing task.
+- **Body:**
+  ```json
+  {
+    "id": "ef24b760-f7d4-4b80-a63c-121ad2a30717",
+    "title": "Updated task title",
+    "description": "Updated description.",
+    "dueDate": "2025-10-05T00:00:00.000Z",
+    "status": false,
+    "priority": 3
+  }
+  ```
 - **Response:**
-   ```json
-   [
-      {
-        "id": "ef24b760-f7d4-4b80-a63c-121ad2a30717",
-        "title": "Plan quarterly roadma",
-        "description": "Draft the Q4 roadmap including milestones and dependencies.",
-        "dueDate": "2025-10-03T00:00:00.000Z",
-        "createDate": "2025-09-28T10:10:00.000Z",
-        "status": false,
-        "priority": 2
-      },
-      ...matcehd tasks
-    ]
-   ```
+  ```json
+  {
+    "id": "ef24b760-f7d4-4b80-a63c-121ad2a30717",
+    "title": "Updated task title",
+    "description": "Updated description.",
+    "dueDate": "2025-10-05T00:00:00.000Z",
+    "createDate": "2025-09-28T10:10:00.000Z",
+    "status": false,
+    "priority": 3
+  }
+  ```
 
-#### `PUT /api/check`
+---
+
+#### DELETE /api/delete
+
+- **Description:** Delete a task by ID.
+- **Body:**
+  ```json
+  { "id": "ef24b760-f7d4-4b80-a63c-121ad2a30717" }
+  ```
+- **Response:**
+  ```json
+  { "message": "Task deleted" }
+  ```
+
+---
+
+#### PUT /api/check
+
 - **Description:** Mark a task as done.
 - **Body:**
   ```json
-    { "id": "ef24b760-f7d4-4b80-a63c-121ad2a30717" }
-  ```  
+  { "id": "ef24b760-f7d4-4b80-a63c-121ad2a30717" }
+  ```
 - **Response:**
-   ```json
-       {
-        "id": "ef24b760-f7d4-4b80-a63c-121ad2a30717",
-        "title": "Plan quarterly roadma",
-        "description": "Draft the Q4 roadmap including milestones and dependencies.",
-        "dueDate": "2025-10-03T00:00:00.000Z",
-        "createDate": "2025-09-28T10:10:00.000Z",
-        "status": true,
-        "priority": 2
-       }
-   ```
+  ```json
+  {
+    "id": "ef24b760-f7d4-4b80-a63c-121ad2a30717",
+    "title": "Plan quarterly roadmap",
+    "description": "Draft the Q4 roadmap including milestones and dependencies.",
+    "dueDate": "2025-10-03T00:00:00.000Z",
+    "createDate": "2025-09-28T10:10:00.000Z",
+    "status": true,
+    "priority": 2
+  }
+  ```
 
-#### `POST /api/populate`
-- **Description:** Populate system with more tasks.
+---
+
+#### POST /api/populate
+
+- **Description:** Populate system with sample tasks (for development/testing).
 - **Response:**
-    ```json
-      [
-      {
-        "id": "ef24b760-f7d4-4b80-a63c-121ad2a30717",
-        "title": "Plan quarterly roadma",
-        "description": "Draft the Q4 roadmap including milestones and dependencies.",
-        "dueDate": "2025-10-03T00:00:00.000Z",
-        "createDate": "2025-09-28T10:10:00.000Z",
-        "status": false,
-        "priority": 2
-      },
-      ...tasks
-    ]
-    ```
+  ```json
+  [
+    {
+      "id": "ef24b760-f7d4-4b80-a63c-121ad2a30717",
+      "title": "Sample Task",
+      "description": "This is an auto-generated task.",
+      "dueDate": "2025-10-10T00:00:00.000Z",
+      "createDate": "2025-09-28T10:10:00.000Z",
+      "status": false,
+      "priority": 1
+    },
+    ...tasks
+  ]
+  ```
+
+---
+
+### Notes
+
+- All dates follow ISO 8601 UTC format: `YYYY-MM-DDTHH:mm:ss.sssZ`.
+- **Priority Levels:**
+  - 1 = Low
+  - 2 = Medium
+  - 3 = High
+
+### Error Codes
+
+- **400 Bad Request** → Invalid input or missing required field
+- **404 Not Found** → Task not found
+- **500 Internal Server Error** → Server failure
+
    
 ---
 
