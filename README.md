@@ -23,8 +23,8 @@ A project repository structured into two main parts:
 
 ```
 minDoktor/
-├── todo-app/    # Frontend (TypeScript/JavaScript, framework unspecified)
-├── todo-back/   # Backend (likely Node.js/Express, details inside)
+├── todo-app/    # Frontend (TypeScript, Next.js)
+├── todo-back/   # Backend (Deno)
 └── .gitignore
 ```
 
@@ -34,7 +34,6 @@ minDoktor/
 
 - **React:** A JavaScript library for building user interfaces, often used for SPA (single-page applications).
 - **Next.js:** A React framework adding features like routing, API routes, and server-side rendering (SSR).
-- **Node.js:** A JavaScript runtime for running backend code, commonly used for Express.js servers.
 - **Deno:** A secure runtime for JavaScript and TypeScript, an alternative to Node.js.
 
 **Note:** You do _not_ need deep expertise in any framework to get started — this guide walks you through the basics.
@@ -49,9 +48,8 @@ Before you begin, make sure you have the following installed:
   Download from [nodejs.org](https://nodejs.org/) (LTS version recommended).
 - **npm** (comes with Node.js) or **yarn** (optional alternative):  
   Used to install packages and run scripts.
-- **Deno** (only if your backend uses Deno — check the `todo-back` folder):  
+- **Deno** (backend uses Deno):  
   Install from [deno.land](https://deno.land/)  
-  If using Node.js/Express, you do not need Deno.
 
 ---
 
@@ -75,7 +73,6 @@ Before you begin, make sure you have the following installed:
    npm run dev
    ```
    - For Next.js apps, this starts a local server at [http://localhost:3000](http://localhost:3000).
-   - For React apps, use `npm start` instead (if available).
 
 4. **Build for production (optional):**
    ```sh
@@ -83,43 +80,24 @@ Before you begin, make sure you have the following installed:
    ```
    This prepares the project for deployment.
 
-### Backend (`todo-back`) – Node.js/Express or Deno
-
-**If using Node.js/Express:**
-
-1. **Navigate to the backend directory:**
-   ```sh
-   cd todo-back
-   ```
-2. **Install dependencies:**
-   ```sh
-   npm install
-   ```
-3. **Start the backend server:**
-   ```sh
-   npm start
-   ```
-   The server usually runs at [http://localhost:8000](http://localhost:8000) or as defined in the code.
-
-**If using Deno:**
+### Backend (`todo-back`) – Deno
 
 1. **Install Deno (if not already):**
    [Deno installation guide](https://deno.land/manual@v1.34.3/getting_started/installation)
 2. **Run the backend:**
    ```sh
-   deno run --allow-net --allow-read src/main.ts
+   deno run --allow-net --allow-read --allow-write --watch main.ts
    ```
-   Adjust the entry file (`src/main.ts`) if needed.
 
 ---
 
 ## Deployment
 
 - **Frontend:** Deploy to platforms like Vercel, Netlify, or any static hosting provider.  
-  Follow instructions on their docs for React or Next.js projects.
-- **Backend:** Deploy to services like Heroku, Render, or Deno Deploy (if using Deno).
+  Follow instructions on their docs for Next.js projects.
+- **Backend:** Deploy to services like Heroku, Render, or Deno Deploy.
 - **Environment Variables:**  
-  Copy `.env.example` to `.env` and fill in required values (API keys, database URLs, etc.).
+  If want to use DB servuces instead of local file fill values in the `.env` (database URLs, passwords, etc.).
 
 ---
 
@@ -128,7 +106,7 @@ Before you begin, make sure you have the following installed:
 - **Frontend:**  
   Open [http://localhost:3000](http://localhost:3000) in your browser after starting the frontend server.
 - **Backend:**  
-  The API is accessible at [http://localhost:8000/api](http://localhost:8000/api) (port may vary).
+  The API is accessible at [http://localhost:8000/api](http://localhost:8000/api).
 - The frontend communicates with the backend via REST API calls.
 
 ---
