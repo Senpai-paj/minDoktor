@@ -18,9 +18,9 @@ export default function Populate( {setData, setAllData} : PopulateProps) {
             setData(items);
         })
         .catch((err) => {
-        if (err.name !== "AbortError") {
-              console.error("Failed to populate Tasks", err);
-         }
+            if (err.name !== "AbortError") {
+                  console.error("Failed to populate Tasks", err);
+            }
         });
       
     return () => {

@@ -1,11 +1,12 @@
 import { Task } from "@/types/task"
-import { useCallback, useEffect, useState } from "react"
-import { searchTasks } from "@/lib/api"
+import { useCallback, useEffect, useState, useRef } from "react"
+import { search } from "@/lib/serivces/task.Service"
 
 export default function Search({ all, onSearch}: {all: Task[], onSearch: (tasks: Task[]) => void }) {
 
     const [text, setText] = useState('')
     const [loading, setLoading] = useState(false)
+    const controllerRef = useRef<AbortController | null>(null);
 
     const localFilter = useCallback((q: string) => {
         const query = q.trim().toLowerCase()
@@ -21,15 +22,26 @@ export default function Search({ all, onSearch}: {all: Task[], onSearch: (tasks:
     }, [text, localFilter, onSearch])
 
     async function runServerSearch() {
+
         const q = text.trim()
         if (!q) return onSearch(all)
+
+        controllerRef.current?.abort();
+        const controller = new AbortController();
+        controllerRef.current = controller;
+
         setLoading(true)
-        try {
-            const server = await searchTasks(q)
-            onSearch(server)
-        } finally {
-            setLoading(false)
-        }
+        
+        search(q, controller.signal)
+        .then((server) => {
+          onSearch(server);
+        })
+        .catch((err) => {
+          if (err.name !== "AbortError") console.error("Search failed", err);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     }
 
     return (

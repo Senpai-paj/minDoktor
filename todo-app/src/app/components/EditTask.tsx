@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { editTask } from '@/lib/api'
+import { edit } from '@/lib/serivces/task.Service'
 import { X } from 'lucide-react'
 import type { Task } from '@/types/task'
 
@@ -52,27 +52,38 @@ export default function EditTask({ isOpen, task, onClose, onEdited }: EditTaskPr
     }
   }, [isOpen, task]);
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    if (!task) return
-    if (!title.trim() || !dueDate) return
-    setSubmitting(true)
-    try {
-      const updated: Task = {
-        ...task,
-        title: title.trim(),
-        description: description.trim(),
-        dueDate: new Date(dueDate),
-        editDate: new Date(),
-        priority: priority,
-      }
-      const saved = await editTask(updated)
-      onEdited?.(saved)
-      onClose()
-    } finally {
-      setSubmitting(false)
-    }
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!task) return;
+    if (!title.trim() || !dueDate) return;
+  
+    setSubmitting(true);
+  
+  
+    const updated: Task = {
+      ...task,
+      title: title.trim(),
+      description: description.trim(),
+      dueDate: new Date(dueDate),
+      editDate: new Date(),
+      priority,
+    };
+  
+    edit(updated)
+      .then((saved) => {
+        onEdited?.(saved);
+        onClose();
+      })
+      .catch((err: any) => {
+        if (err.name !== "AbortError") {
+          console.error("Edit failed", err);
+        }
+      })
+      .finally(() => {
+        setSubmitting(false);
+      });
   }
+  
 
   if (!show) return null;
 

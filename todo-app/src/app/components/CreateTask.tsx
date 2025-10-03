@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { createTask } from '@/lib/api'
+import { create } from '@/lib/serivces/task.Service'
 import { X } from 'lucide-react';
 import type { Task } from '@/types/task'
 
@@ -28,28 +28,36 @@ export default function CreateTask({ isOpen, onClose, onCreated }: CreateTaskPro
   }, [isOpen, onClose])
 
   async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    if (!title.trim() || !dueDate) return
-    setSubmitting(true)
-    try {
-      const newTask: Task = {
-        id: crypto.randomUUID(),
-        title: title.trim(),
-        description: description.trim(),
-        dueDate: new Date(dueDate),
-        createDate: new Date(),
-        status: false,
-        priority: priority,
-      }
-      const saved = await createTask(newTask)
-      onCreated?.(saved)
-      onClose()
-      setTitle('')
-      setDescription('')
-      setDueDate('')
-    } finally {
-      setSubmitting(false)
-    }
+    e.preventDefault();
+  if (!title.trim() || !dueDate) return;
+
+  setSubmitting(true);
+
+  const newTask: Task = {
+    id: crypto.randomUUID(),
+    title: title.trim(),
+    description: description.trim(),
+    dueDate: new Date(dueDate),
+    createDate: new Date(),
+    status: false,
+    priority,
+  };
+
+  create(newTask)
+    .then((saved) => {
+      onCreated?.(saved);
+      onClose();
+
+      setTitle('');
+      setDescription('');
+      setDueDate('');
+    })
+    .catch((err: any) => {
+      console.error("Failed to create task", err);
+    })
+    .finally(() => {
+      setSubmitting(false);
+    });
   }
 
   return (

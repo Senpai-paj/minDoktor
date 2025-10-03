@@ -2,18 +2,12 @@
 
 import { useEffect, useState, useCallback } from 'react'
 import { Task } from '@/types/task'
-import { getTasks } from '@/lib/api'
+import { fetchTasks } from '@/lib/serivces/task.Service'
 import Navbar from './components/Navbar'
 import CreateTask from './components/CreateTask'
 import Search from './components/Search'
 import Sort from './components/Sort'
 import Category from './components/Category'
-
-async function fetchTasks(signal?: AbortSignal): Promise<Task[]> {
-  const res = await getTasks(signal);
-  if (!res) throw new Error("Failed to fetch");
-  return res;
-}
 
 export default function HomePage() {
   const [allData, setAllData] = useState<Task[]>([]);

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Sparkles } from "lucide-react";
-import { check } from '@/lib/api';
+import { check } from '@/lib/serivces/task.Service';
 import { Task } from "@/types/task";
 
 interface CheckButtonProps {
@@ -15,20 +15,24 @@ export default function CheckButton({ setChecked, taskId, onEdited }: CheckButto
 
   const handleClick = async () => {
     if (loading) return;
+
     if (step === 0) {
       setStep(1);
     } else {
       setLoading(true);
-      try {
-        const updatedTask = await check(taskId);
-        setChecked(true);
-        onEdited?.(updatedTask);
-      } catch (err) {
-        console.error("Failed to check task:", err);
-      } finally {
-        setLoading(false);
-        setStep(0);
-      }
+
+      check(taskId)
+        .then((updatedTask) => {
+          setChecked(true);
+          onEdited?.(updatedTask);
+        })
+        .catch((err: any) => {
+          console.error("Failed to check task:", err);
+        })
+        .finally(() => {
+          setLoading(false);
+          setStep(0);
+        });
     }
   };
   

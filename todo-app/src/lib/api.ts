@@ -32,26 +32,28 @@ export async function editTask(task: Task): Promise<Task> {
     });
 }
 
-export async function deleteTask(id: string): Promise<{ success: boolean } | Task> {
+export async function deleteTask(id: string, signal?: AbortSignal): Promise<{ success: boolean } | Task> {
     return api<{ success: boolean } | Task>(`/delete`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(id),
+        signal
     });
 }
 
-export async function searchTasks(query: string): Promise<Task[]> {
-    return api<Task[]>(`/search?q=${encodeURIComponent(query)}`, { method: "GET" });
+export async function searchTasks(query: string, signal?: AbortSignal): Promise<Task[]> {
+    return api<Task[]>(`/search?q=${encodeURIComponent(query)}`, { method: "GET", signal });
 }
 
 export async function populate(signal?: AbortSignal): Promise<Task[]> {
     return api<Task[]>(`/populate`, { method: "POST", signal });
 }
 
-export async function check(id: string): Promise<Task> {
+export async function checkTask(id: string, signal?: AbortSignal): Promise<Task> {
     return api<Task>(`/check`, { 
         method: "PUT", 
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(id) 
+        body: JSON.stringify(id), 
+        signal
     });
 }
