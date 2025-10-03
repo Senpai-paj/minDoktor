@@ -1,6 +1,20 @@
+/**
+ * Controller for handling HTTP requests related to tasks.
+ * Each function maps an API route to a service function and formats the response.
+ *
+ * @module controller
+ */
+
 import { jsonResponse } from "./utils.ts";
 import { createTask, getAllTasks, findTasksByName, editTask, deleteTask, populate, checkTask } from "./service.ts";
 
+/**
+ * Handles retrieval of all tasks or search by query.
+ * GET /tasks
+ *
+ * @param {Request} req - The incoming HTTP request.
+ * @returns {Promise<Response>} - JSON response containing tasks or search results.
+ */
 export async function handleGetTasks(req: Request): Promise<Response> {
   const url = new URL(req.url);
   const query = url.searchParams.get("q");
@@ -12,6 +26,13 @@ export async function handleGetTasks(req: Request): Promise<Response> {
   return jsonResponse(tasks);
 }
 
+/**
+ * Handles editing an existing task.
+ * PUT /edit
+ *
+ * @param {Request} req - The incoming HTTP request, expects task data in JSON body.
+ * @returns {Promise<Response>} - JSON response with edited task or error.
+ */
 export async function handleEdit(req: Request): Promise<Response> {
   try {
     const body = await req.json();
@@ -25,6 +46,13 @@ export async function handleEdit(req: Request): Promise<Response> {
   }
 }
 
+/**
+ * Handles creation of a new task.
+ * POST /create
+ *
+ * @param {Request} req - The incoming HTTP request, expects task data in JSON body.
+ * @returns {Promise<Response>} - JSON response with created task or error.
+ */
 export async function handleCreateTask(req: Request): Promise<Response> {
   try {
     const body = await req.json();
@@ -39,6 +67,13 @@ export async function handleCreateTask(req: Request): Promise<Response> {
   }
 }
 
+/**
+ * Handles deletion of a task.
+ * DELETE /delete
+ *
+ * @param {Request} req - The incoming HTTP request, expects task ID in JSON body.
+ * @returns {Promise<Response>} - JSON response with status or error.
+ */
 export async function handleDeleteTask(req: Request): Promise<Response> {
   console.log("trying to delete");
   try {
@@ -50,6 +85,12 @@ export async function handleDeleteTask(req: Request): Promise<Response> {
   }
 }
 
+/**
+ * Handles populating the database with sample tasks.
+ * POST /populate
+ *
+ * @returns {Promise<Response>} - JSON response with population status or error.
+ */
 export async function handlePopulate(): Promise<Response> {
   console.log('populating');
   try {
@@ -60,6 +101,13 @@ export async function handlePopulate(): Promise<Response> {
   }
 }
 
+/**
+ * Handles checking/unchecking a task (mark as complete/incomplete).
+ * PUT /check
+ *
+ * @param {Request} req - The incoming HTTP request, expects task ID in JSON body.
+ * @returns {Promise<Response>} - JSON response with status or error.
+ */
 export async function handleCheck(req: Request): Promise<Response> {
   try {
     const id = await req.json();

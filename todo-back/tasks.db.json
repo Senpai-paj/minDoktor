@@ -1,11 +1,120 @@
 [
   {
-    "id": "seed-1",
-    "title": "Walk the dog",
-    "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-    "dueDate": "10-10-2025",
-    "createDate": "12-10-2025"
+    "id": "ef24b760-f7d4-4b80-a63c-121ad2a30717",
+    "title": "Plan quarterly",
+    "description": "Draft the Q4 roadmap including milestones and dependencies.",
+    "dueDate": "2025-10-03T00:00:00.000Z",
+    "createDate": "2025-09-28T10:10:00.000Z",
+    "status": false,
+    "priority": 2,
+    "editDate": "2025-10-03T16:35:51.514Z"
+  },
+  {
+    "id": "10e8278a-7c3f-4575-956e-a628c819a643",
+    "title": "Write unit tests for service layer",
+    "description": "Add coverage for createTask and findTasksByName functions.",
+    "dueDate": "2025-10-04T09:00:00.000Z",
+    "createDate": "2025-09-28T11:20:00.000Z",
+    "status": false,
+    "priority": 2
+  },
+  {
+    "id": "f182f06b-ed47-4dcb-b4c3-ca00d53d39c9",
+    "title": "Refactor repository file IO",
+    "description": "Optimize JSON read/write with atomic temp file strategy.",
+    "dueDate": "2025-10-05T09:00:00.000Z",
+    "createDate": "2025-09-28T12:30:00.000Z",
+    "status": true,
+    "priority": 2
+  },
+  {
+    "id": "e36ccd21-a7a4-473c-8f2d-cb8789189a12",
+    "title": "Design API error schema",
+    "description": "Propose consistent error response format with codes and messages.",
+    "dueDate": "2025-10-06T09:00:00.000Z",
+    "createDate": "2025-09-28T13:40:00.000Z",
+    "status": false,
+    "priority": 0
+  },
+  {
+    "id": "9190a04c-0c8c-4ce9-9ad1-cd5820f0a0ce",
+    "title": "Add request validation",
+    "description": "Validate incoming JSON bodies for required fields and types.",
+    "dueDate": "2025-10-07T09:00:00.000Z",
+    "createDate": "2025-09-28T14:50:00.000Z",
+    "status": false,
+    "priority": 0
+  },
+  {
+    "id": "7d8070d5-8304-4b05-b0bf-aa68ee2200a0",
+    "title": "Write README setup instructions",
+    "description": "Document how to run server and configure API_URL for frontend.",
+    "dueDate": "2025-10-08T09:00:00.000Z",
+    "createDate": "2025-09-28T15:10:00.000Z",
+    "status": true,
+    "priority": 2
+  },
+  {
+    "id": "a8f28cca-d869-495f-83ed-5457ce1d152e",
+    "title": "Implement search by title UI",
+    "description": "Add search box to filter tasks by name on the frontend.",
+    "dueDate": "2025-10-09T09:00:00.000Z",
+    "createDate": "2025-09-28T16:20:00.000Z",
+    "status": false,
+    "priority": 0
+  },
+  {
+    "id": "5eb100df-d7a2-4c9f-ac83-4c6556292cee",
+    "title": "Add logging middleware",
+    "description": "Log method, path, and response status for each request.",
+    "dueDate": "2025-10-10T09:00:00.000Z",
+    "createDate": "2025-09-28T17:30:00.000Z",
+    "status": false,
+    "priority": 2
+  },
+  {
+    "id": "bdb90209-016c-44df-a477-d9fabb6eae0b",
+    "title": "Configure CI checks",
+    "description": "Add formatting and lint checks to CI workflow.",
+    "dueDate": "2025-10-11T09:00:00.000Z",
+    "createDate": "2025-09-28T18:40:00.000Z",
+    "status": false,
+    "priority": 0
+  },
+  {
+    "id": "0015dbc9-2f53-4075-adbe-962a3cffb95f",
+    "title": "Harden CORS settings",
+    "description": "Restrict origins and methods for production environment.",
+    "dueDate": "2025-10-12T09:00:00.000Z",
+    "createDate": "2025-09-28T19:50:00.000Z",
+    "status": false,
+    "priority": 2
+  },
+  {
+    "id": "74820288-4753-4b2d-9162-6d917c3dd800",
+    "title": "Add pagination to tasks list",
+    "description": "Support limit and offset query params on GET /tasks.",
+    "dueDate": "2025-10-13T09:00:00.000Z",
+    "createDate": "2025-09-29T08:00:00.000Z",
+    "status": false,
+    "priority": 0
+  },
+  {
+    "id": "3c9602ab-4dc8-4ba9-9811-a39c3ac54a04",
+    "title": "Implement delete endpoint",
+    "description": "Expose DELETE /tasks/:id to remove a task.",
+    "dueDate": "2025-10-14T09:00:00.000Z",
+    "createDate": "2025-09-29T08:20:00.000Z",
+    "status": true,
+    "priority": 1
+  },
+  {
+    "id": "bf9d8b84-f2c1-443a-87ad-ab3c2381d283",
+    "title": "Build edit task form",
+    "description": "Create UI to update title and description of a task.",
+    "dueDate": "2025-10-15T09:00:00.000Z",
+    "createDate": "2025-09-29T09:15:00.000Z",
+    "status": false,
+    "priority": 2
   }
 ]
-
-
