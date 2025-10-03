@@ -1,4 +1,4 @@
-# minDoktor
+# ToDo App
 
 A project repository structured into two main parts:
 - `todo-app`: Frontend application
