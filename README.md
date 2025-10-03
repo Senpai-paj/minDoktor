@@ -44,6 +44,36 @@ minDoktor/
 
 Before you begin, make sure you have the following installed:
 
+You’ll need Node.js,  npm and Deno.
+
+### Check on macOS or Windows
+
+#### Node.js & npm
+
+1. **Open your Terminal** (macOS) or **Command Prompt/PowerShell** (Windows).
+2. **Type the following commands and press Enter:**
+
+   ```sh
+   node -v
+   npm -v
+   ```
+
+   - If installed, you’ll see version numbers (e.g., `v18.17.1`).
+   - If not installed, you’ll see an error like “command not found” or “not recognized”.
+
+#### Deno
+
+1. **Type the following command and press Enter:**
+
+   ```sh
+   deno --version
+   ```
+
+   - If installed, you’ll see version numbers for Deno, V8, TypeScript, etc.
+   - If not installed, you’ll see an error.
+
+### What to Do If Not Installed
+
 - **Node.js** (required for most frontend and backend setups):  
   Download from [nodejs.org](https://nodejs.org/) (LTS version recommended).
 - **npm** (comes with Node.js) or **yarn** (optional alternative):  
