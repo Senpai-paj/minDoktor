@@ -21,9 +21,29 @@ A project repository structured into two main parts:
 
 ```
 minDoktor/
-├── todo-app/    # Frontend (TypeScript, Next.js)
-├── todo-back/   # Backend (Deno)
-└── .gitignore
+├── .gitignore
+├── README.md
+├── todo-app/
+│   └── src/
+│       ├── app/
+│       │   ├── components/
+│       │   │   ├── category/      # Category-related components
+│       │   │   ├── nav/           # Navigation components
+│       │   │   ├── search/        # Search bar/components
+│       │   │   └── task/          # Task display/edit components
+│       │   ├── layout.tsx
+│       │   └── page.tsx
+│       ├── lib/
+│       │   ├── api.ts
+│       │   └── serivces/
+│       └── types/
+├── todo-back/
+│   ├── controller.ts
+│   ├── main.ts
+│   ├── repository.ts
+│   ├── service.ts
+│   ├── types.ts
+│   └── utils.ts
 ```
 
 ---
