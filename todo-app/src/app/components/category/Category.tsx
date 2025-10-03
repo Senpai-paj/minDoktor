@@ -6,7 +6,7 @@
  */
 
 import { Task } from "@/types/task";
-import TaskCard from "./card/TaskCard";
+import TaskCard from "../task/TaskCard";
 import { useState } from "react";
 import Pagination from "./Pagination";
 

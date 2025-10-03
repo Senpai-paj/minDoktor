@@ -11,7 +11,7 @@ import DeleteButton from "./card-components/DeleteButton";
 import EditButton from "./card-components/EditButton";
 import CheckButton from "./card-components/CheckButton";
 import { useState } from "react";
-import EditTask from "../EditTask";
+import EditTask from "./modal/EditTask";
 
 /**
  * Props for TaskCard component (extends Task).

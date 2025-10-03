@@ -11,11 +11,11 @@
 import { useEffect, useState, useCallback } from 'react'
 import { Task } from '@/types/task'
 import { fetchTasks } from '@/lib/serivces/task.Service'
-import Navbar from './components/Navbar'
-import CreateTask from './components/CreateTask'
-import Search from './components/Search'
-import Sort from './components/Sort'
-import Category from './components/Category'
+import Navbar from './components/nav/Navbar'
+import CreateTask from './components/task/modal/CreateTask'
+import Search from './components/search/Search'
+import Sort from './components/search/Sort'
+import Category from './components/category/Category'
 
 /**
  * Main home page component.
