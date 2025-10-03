@@ -4,6 +4,9 @@ A project repository structured into two main parts:
 - `todo-app`: Frontend application
 - `todo-back`: Backend API
 
+## Google docs med beskrivnig:
+https://docs.google.com/document/d/1Q3R10w1M7gILSLgIHzDio2Zg-mVRDknR0sV6WmIdhk0/edit?usp=sharing
+
 ## Table of Contents
 - [Project Structure](#project-structure)
 - [About the Tech Stack](#about-the-tech-stack)
