@@ -29,7 +29,7 @@ export default function Populate( {setData, setAllData} : PopulateProps) {
   }
 
   return (
-    <button className='cursor-pointer text-slate-700' title="Click to populate" onClick={handlePopulate}><BadgePlus/></button>
+    <button className='cursor-pointer text-slate-700 flex' title="Click to populate" onClick={handlePopulate}><BadgePlus/>Populate</button>
   )
 }
 
