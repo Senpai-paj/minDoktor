@@ -1,3 +1,11 @@
+/**
+ * Home page for the todo application.
+ * Displays the main UI, including navigation, task creation, search, sorting, and task listing.
+ * Handles fetching tasks, displaying categories, and UI state management.
+ *
+ * @module app/page
+ */
+
 'use client'
 
 import { useEffect, useState, useCallback } from 'react'
@@ -9,15 +17,43 @@ import Search from './components/Search'
 import Sort from './components/Sort'
 import Category from './components/Category'
 
+/**
+ * Main home page component.
+ *
+ * @returns {JSX.Element} The rendered home page.
+ */
 export default function HomePage() {
+  /**
+   * List of all tasks (unfiltered).
+   * @type {[Task[], Function]}
+   */
   const [allData, setAllData] = useState<Task[]>([]);
+  /**
+   * List of currently displayed tasks (may be filtered/search/sorted).
+   * @type {[Task[], Function]}
+   */
   const [data, setData] = useState<Task[]>([]);
+  
+  /**
+   * Whether the create task dialog is open.
+   * @type {[boolean, Function]}
+   */
   const [isCreateOpen, setIsCreateOpen] = useState(false);
-  // Only one category for now, can be evolved to the kanban columns (was original idea if i had more time)
+
+  /**
+   * Only one category for now. Can be evolved to multiple (e.g., kanban columns).
+   * @type {Array<{ id: string, title: string, tasks: Task[] }>}
+   */
   const categories = [
     { id: "todo", title: "To Do", tasks: data },
   ];
 
+  /**
+   * Applies sorting to a list of tasks by due date.
+   * @param {Task[]} list - List of tasks to sort.
+   * @param {string} order - Sorting order ('recent' or 'older').
+   * @returns {Task[]} Sorted list of tasks.
+   */
   function applySort(list: Task[], order: string) {
     const copy = [...list];
     copy.sort((a, b) => {
@@ -28,6 +64,10 @@ export default function HomePage() {
     return copy;
   }
 
+  /**
+   * Effect for fetching tasks on initial render.
+   * Uses AbortController for cleanup.
+   */
   useEffect(() => {
     const controller = new AbortController();
 
@@ -43,6 +83,9 @@ export default function HomePage() {
     return () => controller.abort();
   }, []);
 
+  /**
+   * Callback for updating displayed tasks after a search.
+   */
   const handleSearch = useCallback((list: Task[]) => setData(list), []);
 
   return (
@@ -85,4 +128,3 @@ export default function HomePage() {
     </div>
   );
 }
-

@@ -1,18 +1,42 @@
+/**
+ * Category component for displaying a paginated list of tasks.
+ * Handles pagination, rendering TaskCards, and updating tasks state on edit/delete.
+ *
+ * @module Category
+ */
+
 import { Task } from "@/types/task";
 import TaskCard from "./card/TaskCard";
 import { useState } from "react";
 import Pagination from "./Pagination";
 
+/**
+ * Props for Category component.
+ * @typedef {Object} CategoryProps
+ * @property {Task[]} tasks - Array of tasks in the category.
+ * @property {React.Dispatch<React.SetStateAction<Task[]>>} setAllData - Setter for all tasks.
+ * @property {React.Dispatch<React.SetStateAction<Task[]>>} setData - Setter for displayed tasks.
+ * @property {string} [className] - Optional extra CSS class.
+ */
 type CategoryProps = {
     tasks: Task[];
     setAllData: React.Dispatch<React.SetStateAction<Task[]>>;
     setData: React.Dispatch<React.SetStateAction<Task[]>>;
 }
 
+/**
+ * Category column component with pagination.
+ *
+ * @param {CategoryProps & { className?: string }} props - Props for the component.
+ * @returns {JSX.Element} The rendered list of paginated tasks.
+ */
 export default function Category({ tasks, setAllData, setData, className }: CategoryProps & { className?: string }) {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 5;
 
+  /**
+   * Paginated data for the current page.
+   */
   const paginatedData = tasks.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
   return (
@@ -35,16 +59,11 @@ export default function Category({ tasks, setAllData, setData, className }: Cate
         ))}
       </div>
 
-      
       <Pagination
         currentPage={currentPage}
         totalPages={Math.ceil(tasks.length / pageSize)}
         onPageChange={(page) => setCurrentPage(page)}
       />
-
     </div>
   );
 }
-
-
-  
