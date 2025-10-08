@@ -148,14 +148,15 @@ export default function CreateTask({ isOpen, onClose, onCreated }: CreateTaskPro
 
             <div>
               <label className="mb-1 block text-sm">Priority</label>
-              <input
-                type="number"
-                min={0}
-                max={10}
+              <select
                 className="w-full rounded border px-3 py-2 outline-none bg-sky-950/40"
                 value={priority}
                 onChange={(e) => setPriority(Number(e.target.value))}
-              />
+              >
+                <option value={0}>Low</option>
+                <option value={1}>Medium</option>
+                <option value={2}>High</option>
+              </select>
             </div>
 
             <button
