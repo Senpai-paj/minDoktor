@@ -7,6 +7,9 @@ A project repository structured into two main parts:
 ## Google docs med beskrivnig:
 https://docs.google.com/document/d/1Q3R10w1M7gILSLgIHzDio2Zg-mVRDknR0sV6WmIdhk0/edit?usp=sharing
 
+## Slides
+https://www.figma.com/deck/oPQp9rDSQUy457CN4Ioo6r/minDoktor?node-id=12-619&t=jfonGbv48JRVPWXU-1
+
 ## Table of Contents
 - [Project Structure](#project-structure)
 - [About the Tech Stack](#about-the-tech-stack)
